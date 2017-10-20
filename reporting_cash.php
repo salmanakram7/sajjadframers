@@ -276,9 +276,9 @@ $list_sales_debt = mysqli_query($connection, "SELECT * FROM sale");
                                 <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th>Total frames</th>
-                                    <th>Total Orders</th>
-                                    <th>Pending Debt</th>
+                                    <th>Payment History</th>
+                                    <th>null</th>
+                                    <th>null</th>
 
                                 </tr>
                                 </thead>
@@ -310,7 +310,7 @@ $list_sales_debt = mysqli_query($connection, "SELECT * FROM sale");
                                         echo '</tr></tbody>';
                                     }
                                 }else{
-                        echo "<h4  class='alert alert-danger alert-dismissible'>Internal Application Error!</h4>";
+                        echo "<h4  class='alert alert-success'>All bills are cleared</h4>";
                                 }
     ?>
                             </table>

@@ -2,14 +2,14 @@
 session_start();
 include('../system/connection.php');
 
-//Geting variables
-if(isset($_POST['c_edit_update']) == 1){
+//Getting variables if edit mode
+if(isset($_POST['c_edit_update']) == 1) {
     $_user =  $_POST['c_edit_name'];
     $_phone = $_POST['c_edit_phone'];
-//getting username ready  for storing
     $name   = ucwords($_POST['c_edit_phone']);
     $phone  = $_POST['c_edit_phone'];
 }else{
+    //Getting variables if new customer is added
     $_user =  $_POST['c_name'];
     $_phone = $_POST['c_phone'];
 //getting username ready  for storing
@@ -27,7 +27,7 @@ $rowcount  = mysqli_num_rows($contained);
 if($rowcount > 0){
     // Error phone no is already registered
     $_SESSION['alert_type'] = 'error';$_SESSION['alert_title'] = "A User Already Exists with this phone - $phone update failed ";$_SESSION['alert_msg'] = ' ';
-//    header("Location: ../reporting_customers.php");
+    header("Location: ../reporting_customers.php");
 }else{
     // Success new phone no
     //Checking if update / Store
@@ -43,4 +43,4 @@ if($rowcount > 0){
         $_SESSION['alert_type'] = 'success'; $_SESSION['alert_title'] = 'Customer Added Successfully'; $_SESSION['alert_msg'] = ' ';
     }
 }
-//header("Location: ../reporting_customers.php");
+header("Location: ../reporting_customers.php");

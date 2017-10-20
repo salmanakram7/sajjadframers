@@ -223,7 +223,7 @@ $get_stock = "SELECT * FROM `sale`";
 $result = mysqli_query($connection,$get_stock);
 
 if(!$result){
-    echo "Something Bad Happened Sorry ... :/ ";
+    echo "Something Bad Happened! Sorry ... :/ ";
 }
 
 while ($list_sale = mysqli_fetch_assoc($result)){

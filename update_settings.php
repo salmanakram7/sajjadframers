@@ -175,36 +175,20 @@ $list_s = mysqli_query($connection, "SELECT * FROM stock");
 
 
                         <div class="col-sm-12 col-xs-12 col-md-6">
-                            <h4 class="header-title m-t-0">Login Required</h4>
-                            <p class="text-muted font-13 m-b-10">
-                                Access Controll panel
-                            </p>
+                            <h4 class="header-title m-t-0">Please verify your identity</h4>
 
                             <div class="p-20">
                                 <form role="form" method="post" action="controller/update_settings.php" data-parsley-validate novalidate>
-
                                     <div class="form-group row">
-                                        <label for="hori-pass1" class="col-sm-4 form-control-label"> Email<span class="text-danger">*</span></label>
-                                        <div class="col-sm-7">
-                                            <input minlength="6" id="hori-pass1" name="u_pass" type="password" placeholder="Password" required
-                                                   class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="hori-pass2" class="col-sm-4 form-control-label">Password
-                                            <span class="text-danger">*</span></label>
                                         <div class="col-sm-7">
                                             <input minlength="6" data-parsley-equalto="#hori-pass1" type="password" required
                                                    placeholder="Password" name="u_pass"  class="form-control" id="hori-pass2">
                                         </div>
                                     </div>
-
-
-
                                     <div class="form-group row">
-                                        <div class="col-sm-11 ">
+                                        <div class="col-sm-7 ">
                                             <button  type="submit" class="btn btn-primary waves-effect waves-light pull-right">
-                                                Grant
+                                                GO
                                             </button>
 
                                         </div>

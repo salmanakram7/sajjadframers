@@ -12,7 +12,7 @@ $("#s_framesize").focus(function () {
         }
     });
 });
-//Type only Numbers in Frame Size Do Sale
+//Type only Numbers in Frame Size -> Do Sale
 $(document).ready(function () {
     //called when key is pressed in textbox
     $("#s_framesize").keypress(function (e) {
@@ -45,7 +45,7 @@ $(document).ready(function () {
     });
 });
 
-//Toggle Inner Size
+//Disables inner size if frame is selected
 $("#s_type").change(function () {
     var get_inner = $('#s_type option:selected').text();
     if (get_inner == 'Frame') {
@@ -57,7 +57,7 @@ $("#s_type").change(function () {
 });
 
 
-//AutoHide System-alert
+//AutoHide System-alert in 4 seconds
 $(document).ready(function () {
     $("#system-alert").fadeTo(40000, 1000).slideUp(1000, function(){
         $("#system-alert").alert('close');

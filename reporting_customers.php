@@ -5,7 +5,6 @@ if(!isset($_SESSION['username'])){
 $_SESSION['auth_err'] = "Please Login First";
 header('location:index.php');
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -28,6 +27,7 @@ header('location:index.php');
         <!-- DataTables -->
         <link href="assets/plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
         <link href="assets/plugins/datatables/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+
         <!-- Responsive datatable examples -->
         <link href="assets/plugins/datatables/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 
@@ -47,9 +47,7 @@ header('location:index.php');
 
     </head>
 
-
     <body>
-
         <!-- Navigation Bar-->
         <header id="topnav">
             <div class="topbar-main">
@@ -64,11 +62,8 @@ header('location:index.php');
                     </div>
                     <!-- End Logo container-->
 
-
                     <div class="menu-extras">
-
                         <ul class="nav navbar-nav pull-right">
-
                             <li class="nav-item">
                                 <!-- Mobile menu toggle-->
                                 <a class="navbar-toggle">
@@ -80,13 +75,6 @@ header('location:index.php');
                                 </a>
                                 <!-- End mobile menu toggle-->
                             </li>
-
-
-
-
-
-
-
                             <li class="nav-item dropdown notification-list">
                                 <a class="nav-link dropdown-toggle arrow-none waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
                                    aria-haspopup="false" aria-expanded="false">
@@ -97,18 +85,14 @@ header('location:index.php');
                                     <div class="dropdown-item noti-title">
                                         <h5 class="text-overflow"><small>Welcome ! <?php if(isset($_SESSION['username'])){echo $_SESSION['username']; }?></small> </h5>
                                     </div>
-
                                     <!-- item-->
                                     <a href="update_settings.php" class="dropdown-item notify-item">
                                         <i class="zmdi zmdi-settings"></i> <span>Settings</span>
                                     </a>
-
-
                                     <!-- item-->
                                     <a href="system/logout.php" class="dropdown-item notify-item">
                                         <i class="zmdi zmdi-power"></i> <span>Logout</span>
                                     </a>
-
                                 </div>
                             </li>
 
@@ -120,8 +104,6 @@ header('location:index.php');
                 </div> <!-- end container -->
             </div>
             <!-- end topbar-main -->
-
-
             <div class="navbar-custom">
                 <div class="container">
                     <div id="navigation">
@@ -142,11 +124,7 @@ header('location:index.php');
 
                             <li class="has-submenu">
                                 <a href="reporting_customers.php"><i class="zmdi zmdi-collection-text"></i><span> Manage Customers </span> </a>
-
                             </li>
-
-
-
 
                             <li class="has-submenu">
                                 <a href="#"><i class="zmdi zmdi-collection-item"></i> <span> Reporting </span> </a>
@@ -156,8 +134,6 @@ header('location:index.php');
                                             <li><a href="reporting_stock.php">Stock Report</a></li>
                                             <li><a href="reporting_sale.php"> Sale Report</a></li>
                                             <li><a href="reporting_cash.php"> Cash Balance Report</a></li>
-
-
                                         </ul>
                                     </li>
 
@@ -172,8 +148,6 @@ header('location:index.php');
         </header>
         <!-- End Navigation Bar-->
 
-
-
         <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->
@@ -182,11 +156,8 @@ header('location:index.php');
 
               <div style="padding-top:20px"  class="row">
                     <div class="col-sm-12">
-
                         <?php
-
                         if(isset($_SESSION['alert_type'])){
-
                         if($_SESSION['alert_type'] == 'success'){
                         echo "<div style=\"margin-top: 10px;\" id=\"system-alert\" class=\"alert alert-success alert-dismissable\">";
                         echo "<a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\">×</a>";
@@ -213,14 +184,8 @@ header('location:index.php');
                         unset($_SESSION['alert_msg']);
 
                         ?>
-
-
-
-
                     </div>
               </div>
-
-
                 <div  class="row">
                     <div class="hidden-print">
                         <div class="pull-xs-right">
@@ -230,14 +195,8 @@ header('location:index.php');
                         <div class="clearfix"></div>
                     </div>
                     <div class="col-sm-12">
-
-
                         <div  class="card-box table-responsive">
-
                             <h2 style=" margin-bottom: 35px;" class="m-t-0 header-title"><b>Customers List</b></h2>
-
-
-
                             <table id="datatable" class="table table-striped table-bordered">
                                 <thead>
                                     <tr>
@@ -250,7 +209,6 @@ header('location:index.php');
                                 </thead>
                                 <tbody>
 <?php
-
 $get_cust = "SELECT * FROM `customers`";
 
 $result = mysqli_query($connection,$get_cust);
@@ -273,18 +231,19 @@ echo '</td><td>';
 }
 ?>
 <script>
-    $(".edit_user").click(function(){
+    $('.edit_user').click(function(){
             var user_id = $(this).attr("value");
-        $.post('./controller/requestHandler.php', { callback: 'edit_client', user_edit: user_id }, function(data) {
+        $.post('./controller/requestHandler.php', {
+            callback: 'edit_client',
+            user_edit: user_id
+        }, function(data) {
             var res = $.parseJSON(data);
           console.log(res.name,res.phone);
             $("#c_edit_name:text").val(res.name);
             $("#c_edit_phone:text").val(res.phone);
-
         });
     });
 </script>
-
 
 <!-- TODO: 'add edit button for customer info'-->
 
@@ -293,12 +252,6 @@ echo '</td><td>';
                         </div>
                     </div>
                 </div> <!-- end row -->
-
-
-
-
-
-
                 <!-- Footer -->
                 <footer class="footer text-right">
                     <div class="container">
@@ -311,25 +264,11 @@ echo '</td><td>';
                 </footer>
                 <!-- End Footer -->
 
-
-
             </div> <!-- container -->
         </div> <!-- End wrapper -->
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- Modal -->
+<!-- New Customer add Ask Model -->
 <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -345,10 +284,8 @@ echo '</td><td>';
                 <div class="col-sm-7">
                     <input type="text" autofocus required class="form-control" id="c_name" name="c_name" placeholder=""> </div>
             </div>
-
-
             <div class="form-group row">
-                <label class="col-sm-4 form-control-label">Phone (Unique) <span class="text-danger">*</span></label>
+                <label class="col-sm-4 form-control-label">Phone<span class="text-danger">*</span></label>
                 <div class="col-sm-7">
                     <input type="text" minlength="11" maxlength="13" required class="form-control" id="c_phone" name="c_phone" placeholder=""> </div>
             </div>
@@ -362,8 +299,7 @@ echo '</td><td>';
   </div>
 </div>
 
-
-        <!-- Modal -->
+        <!-- Customer Edit Ask Model -->
         <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -379,7 +315,7 @@ echo '</td><td>';
                                     <input type="text" autofocus required class="form-control" id="c_edit_name" name="c_edit_name" placeholder=""> </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-sm-4 form-control-label">Phone (Unique) <span class="text-danger">*</span></label>
+                                <label class="col-sm-4 form-control-label">Phone<span class="text-danger">*</span></label>
                                 <div class="col-sm-7">
                                     <input type="text" minlength="11" maxlength="13" required class="form-control" id="c_edit_phone" name="c_edit_phone" placeholder=""> </div>
                             </div>
@@ -394,13 +330,7 @@ echo '</td><td>';
             </div>
         </div>
 
-
-
-
-
-
-
-                        <!-- Customer delete Ask Modeld -->
+        <!-- Customer delete Ask Modeld -->
         <div class="modal fade" id="askModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -418,13 +348,6 @@ echo '</td><td>';
                 </div>
             </div>
         </div>
-
-
-
-
-
-
-
 
         <script>
             var resizefunc = [];
@@ -444,7 +367,7 @@ echo '</td><td>';
         <!-- Buttons examples -->
         <script src="assets/plugins/datatables/dataTables.buttons.min.js"></script>
         <script src="assets/plugins/datatables/buttons.bootstrap4.min.js"></script>
-        <script src="assets/plugins/datatables/jszip.min.js"></script>
+<!--        <script src="assets/plugins/datatables/jszip.min.js"></script>-->
         <script src="assets/plugins/datatables/pdfmake.min.js"></script>
         <script src="assets/plugins/datatables/vfs_fonts.js"></script>
         <script src="assets/plugins/datatables/buttons.html5.min.js"></script>
@@ -468,11 +391,7 @@ echo '</td><td>';
 
         </script>
 
-
-
                <script type="text/javascript">
-
-
                    //Restrict number input to PHONE in customer update form
                    $(document).ready(function () {
                        //called when key is pressed in textbox
@@ -501,7 +420,9 @@ echo '</td><td>';
                            }
                        });
                    });
-        </script>               <script type="text/javascript">
+        </script>
+
+        <script type="text/javascript">
 
                    $("#system-alert").fadeTo(6000, 500).slideUp(500, function(){
                        $("#system-alert").alert('close');
