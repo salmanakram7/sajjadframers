@@ -196,7 +196,7 @@ header('location:index.php');
                 <div class="row">
                     <div class="hidden-print">
                         <div class="pull-xs-right">
-                            <button type="button" class="btn btn-custom  waves-effect waves-light" data-toggle="modal" data-target="#myModal" aria-expanded="false">Add New / Update <span class="m-l-5"><i class="ion-plus-circled"></i></span></button>
+                            <button type="button" class="btn btn-custom  waves-effect waves-light" data-toggle="modal" data-target="#addNewStock" aria-expanded="false">ADD NEW <span class="m-l-5"><i class="ion-plus-circled"></i></span></button>
                             <a href="javascript:window.print()" class="btn btn-dark waves-effect waves-light"><i class="fa fa-print"></i></a>
                         </div>
                         <div class="clearfix"></div>
@@ -218,9 +218,9 @@ header('location:index.php');
                                         <th>WIDTH (INCH)</th>
                                         <th>WASTAGE (INCH)</th>
                                         <th>ENTRY DATETIME</th>
+                                        <th>STOCK IMPORT</th>
                                     </tr>
                                 </thead>
-
 
                                 <tbody>
 
@@ -239,8 +239,9 @@ if(!$result){
 }
 
 while ($box = mysqli_fetch_assoc($result)){
-    echo $box['no_of_length']. ' - ';
-    echo $box['width'];
+//    Debugging_only
+//    echo $box['no_of_length']. ' - ';
+//    echo $box['width'];
 
 echo '<tr>';
 
@@ -255,11 +256,8 @@ echo ' </td>';
 echo ' <td>';
 echo $box['rate_of_length'];
 echo '</td>';
-
-// TODO: No of length can't be in points add check pls
-// TODO: handle this via Stock Manager
+// TODO: No of length can't be in points add check pls// TODO: handle this via Stock Manager //TODO: link to control panel
     $stockq = $box['no_of_length'];
-//TODO: link to control panel
     $h_sale = 15;
     $m_sale = 10;
     $l_sale = 5;
@@ -275,12 +273,15 @@ echo '</td>';
         } else if(empty($stockq) || $stockq == 0) {
             echo ' <td style="color: #ff5d48;font-weight: bolder;background-color: #ff5d48;">';
             echo $stockq."  &nbsp &nbsp &nbsp &nbsp<button class='btn btn-danger btn-sm' href='#'>SOLD OUT</button>";
-            echo $stockq."  &nbsp &nbsp &nbsp &nbsp<button class='btn btn-danger btn-sm' href='#'>Add Alert</button>";
+            echo $stockq."  &nbsp &nbsp &nbsp &nbsp<button class='btn btn-info btn-sm' href='#'>Remind ?</button>";
             echo ' </td>';
+        } else {
+            echo ' <td class="success">';
+            echo $box['no_of_length'];
+            echo '</td>';
         }
 
     } else if($tWidth >= 2 && $tWidth <= 3) {
-
         if($stockq <= $m_sale && $stockq != 0) {
             echo '<td  style="color: red;font-weight: bolder;background-color: #ffb1b1;">';
             echo $stockq."  &nbsp &nbsp &nbsp &nbsp<button class='btn btn-danger btn-sm' href='#'>LOW STOCK</button>";
@@ -288,8 +289,12 @@ echo '</td>';
         } else if(empty($stockq) || $stockq == 0) {
             echo ' <td style="color: #ff5d48;font-weight: bolder;background-color: #ff5d48;">';
             echo $stockq."  &nbsp &nbsp &nbsp &nbsp<button class='btn btn-danger btn-sm' href='#'>SOLD OUT</button>";
-            echo $stockq."  &nbsp &nbsp &nbsp &nbsp<button class='btn btn-danger btn-sm' href='#'>Add Alert?</button>";
+            echo $stockq."  &nbsp &nbsp &nbsp &nbsp<button class='btn btn-info btn-sm' href='#'>Remind ?</button>";
             echo ' </td>';
+        } else {
+            echo ' <td  class="success">';
+            echo $box['no_of_length'];
+            echo '</td>';
         }
 
     } else if($tWidth > 3) {
@@ -301,18 +306,18 @@ echo '</td>';
         } else if(empty($stockq) || $stockq == 0) {
             echo ' <td style="color: #ff5d48;font-weight: bolder;background-color: #ff5d48;">';
             echo $stockq."  &nbsp &nbsp &nbsp &nbsp<button class='btn btn-danger btn-sm' href='#'>SOLD OUT</button>";
-            echo $stockq."  &nbsp &nbsp &nbsp &nbsp<button class='btn btn-danger btn-sm' href='#'>Add Alert?</button>";
+            echo $stockq."  &nbsp &nbsp &nbsp &nbsp<button class='btn btn-infoZ btn-sm' href='#'>Remind ?</button>";
             echo ' </td>';
+        } else {
+            echo ' <td class="success"> ';
+            echo $box['no_of_length'];
+            echo '</td>';
         }
-    } else {
-        echo ' <td>';
-        echo $box['no_of_length'];
-        echo '</td>';
     }
 
 
 echo '<td>';
-$con_to_foot = $box['size'] / 12; $con_to_foot = round($con_to_foot ); echo $con_to_foot." foot";
+$con_to_foot = $box['size'] / 12; $con_to_foot = round($con_to_foot, 1 ); echo $con_to_foot." foot";
 echo ' </td>';
 
 echo ' <td>';
@@ -324,7 +329,21 @@ echo $box['wastage']." inch";
 echo ' </td>';
 
 echo ' <td>';
-echo $box['datetime'];
+echo $box['invent_datetime'];
+echo ' </td>';
+
+//Import more stock here
+echo ' <td>';
+$productId = $box['pid'];
+echo "<button type=\"button\" class=\"update_button btn btn-custom  waves-effect waves-light\" 
+data-toggle=\"modal\" data-target=\"#updateSingleStockValue\" aria-expanded=\"false\" value=\"$productId\">
++ UPDATE
+<span class=\"m-l-5\"><i class=\"ion-plus-circled\"></i></span></button>";
+
+//Attaching InStock Value to reduce another Request
+//InStock Value Attached
+$modelInStock = $box['instockp'];
+echo "<input type='hidden' class='text-hide' id='fetchInStockValue' value='$modelInStock'>";
 echo ' </td>';
 
 echo ' </tr>';
@@ -358,13 +377,13 @@ echo ' </tr>';
 
 <!--   TODO: 'Add an update button for stock because why not ??!'-->
     
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<!-- Add new Stock Modal -->
+<div class="modal fade" id="addNewStock" tabindex="-1" role="dialog" aria-labelledby="addNewStockLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">New Item</h4>
+        <h4 class="modal-title" id="addNewStockLabel">New Item</h4>
       </div>
       <div style="    padding: 50px 10px 25px 55px;" class="modal-body">
        
@@ -375,7 +394,7 @@ echo ' </tr>';
                     <input type="text" autofocus required class="form-control" id="s_model" name="s_pid" placeholder=""> </div>
             </div>
             <div class="form-group row">
-                <label class="col-sm-4 form-control-label">LENGTH QUANITITY <span class="text-danger">*</span></label>
+                <label class="col-sm-4 form-control-label">LENGTH QUANTITY <span class="text-danger">*</span></label>
                 <div class="col-sm-7">
                     <input type="text" required class="form-control" id="c_name" name="s_no_length" placeholder=""> </div>
             </div>
@@ -399,6 +418,9 @@ echo ' </tr>';
                 <div class="col-sm-7">
                     <input type="text" required class="form-control" id="c_name" name="s_width" placeholder=""> </div>
             </div>
+            <!-- Action for filtering requests on Update Stock page-->
+            <input type="hidden" class="text-hide" name="form_request_action" value="addNewModel">
+
             <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <button  type="submit" class="btn btn-primary">Save</button>
@@ -409,9 +431,49 @@ echo ' </tr>';
   </div>
 </div>
 
+
+
+
+
+
+ <!-- Update Stock Modal -->
+ <div class="modal fade" id="updateSingleStockValue" tabindex="-1" role="dialog" aria-labelledby="addNewStockLabel">
+     <div class="modal-dialog" role="document">
+         <div class="modal-content">
+             <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                 <h4 class="modal-title" id="addNewStockLabel">INVENTORY UPDATE</h4>
+             </div>
+             <div style="padding: 50px 10px 25px 55px;" class="modal-body">
+                <!--TODO: input estrict to only digits-->
+                 <form action="controller/update_stock.php" method="post">
+
+                     <div class="form-group row">
+                         <label class="col-sm-4 form-control-label">QUANTITY (lengths) <span class="text-danger">*</span></label>
+                         <div class="col-sm-4">
+                             <input type="text" required class="form-control" id="c_name" maxlength="4" name="model_quantity" placeholder=""> </div>
+                     </div>
+                     <!--  Model Id Attached -->
+                     <input type="hidden" class="text-hide" id="attachedModelId" name="model_id" value="">                    <!--  Model Id Attached -->
+                    <!--  Model instock Attached -->
+                     <input type="hidden" class="text-hide" id="attachedInStockValue" name="model_inStock" value="">                    <!--  Model Id Attached -->
+
+                     <!-- Action for filtering requests on Update Stock page-->
+                     <input type="hidden" class="text-hide" name="form_request_action" value="updateSingleModel">
+                     <div class="modal-footer">
+                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                         <button  type="submit" class="btn btn-primary btn-success">Import +</button>
+                     </div>
+                 </form>
+             </div>
+         </div>
+     </div>
+ </div>
+
 <script>
   var resizefunc = [];
 </script>
+
 <!-- jQuery  -->
 <script src="assets/js/jquery.min.js"></script>
 <script src="assets/js/tether.min.js"></script><!-- Tether for Bootstrap -->
@@ -426,7 +488,7 @@ echo ' </tr>';
 <!-- Buttons examples -->
 <script src="assets/plugins/datatables/dataTables.buttons.min.js"></script>
 <script src="assets/plugins/datatables/buttons.bootstrap4.min.js"></script>
-<script src="assets/plugins/datatables/jszip.min.js"></script>
+<!--<script src="assets/plugins/datatables/jszip.min.js"></script>-->
 <script src="assets/plugins/datatables/pdfmake.min.js"></script>
 <script src="assets/plugins/datatables/vfs_fonts.js"></script>
 <script src="assets/plugins/datatables/buttons.html5.min.js"></script>
@@ -439,7 +501,27 @@ echo ' </tr>';
 <script src="assets/js/jquery.core.js"></script>
 <script src="assets/js/jquery.app.js"></script>
 
-<!-- =================================== Data Tables =============================================== -->
+<!-- =====================  To Attach ModelID & InStock Value, for model that is being updated ==================== -->
+
+<script type="text/javascript">
+    console.log('Loaded');
+    $('.update_button').on('click', function (){
+
+        var modelId = this.value;
+        console.log('Model-Id');
+        console.log(modelId);
+        $('#attachedModelId').val(modelId);
+
+
+        var instockValue =  $('#fetchInStockValue').val();
+        console.log('InStock-Value');
+        console.log(instockValue);
+        $('#attachedInStockValue').val(instockValue);
+    });
+
+</script>
+
+        <!-- =================================== Data Tables =============================================== -->
 <script type="text/javascript">
     $(document).ready(function() {
         $('#datatable').DataTable();
