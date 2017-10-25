@@ -20,7 +20,9 @@ if(isset($_POST['c_edit_update']) == 1) {
 //Building username
 $username =   substr($_phone,3,7).rand(100,256);
 
+/////////////////////////////////////////////
 //Checking for already existing phone no
+/////////////////////////////////////////////
 $query_check_existing = "SELECT * FROM customers WHERE phone = \"$phone\"";
 $contained = mysqli_query($connection,$query_check_existing);
 $rowcount  = mysqli_num_rows($contained);

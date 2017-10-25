@@ -153,7 +153,9 @@ header('location:index.php');
         <!-- ============================================================== -->
         <div class="wrapper">
             <div class="container">
-
+ <!-- =========================================================================================================== -->
+ <!-- ================================= Notification Module ===================================================== -->
+ <!-- =========================================================================================================== -->
               <div style="padding-top:20px"  class="row">
                     <div class="col-sm-12">
                         <?php
@@ -167,7 +169,7 @@ header('location:index.php');
                         echo $_SESSION['alert_msg'];
                         echo "</div>";
 
-                        }else if ($_SESSION['alert_type'] == 'error'){
+                        } else if ($_SESSION['alert_type'] == 'error'){
 
                         echo "<div style=\"margin-top: 10px;\" id=\"system-alert\" class=\"alert alert-danger alert-dismissable\">";
                         echo "<a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\">×</a>";
@@ -217,33 +219,41 @@ if(!$result){
     echo "Error in Query Exe";
 }
 
-while ($list_cust = mysqli_fetch_assoc($result)){
+while ($cust_blob = mysqli_fetch_assoc($result)){
 echo '<tr> <td>';
-echo $list_cust['name'];
+echo $cust_blob['name'];
 echo '</td><td>';
-echo $phone = $list_cust['phone'];
+echo $phone = $cust_blob['phone'];
 echo ' </td><td>';
 echo 'Lahore';
 echo '</td><td>';
-    echo "<button data-toggle=\"modal\" data-target=\"#askModal\"  class=\"btn btn-danger-outline btn-sm\" id=\"user_phone_dt\" value=\"$phone\" >Remove</button>";
-    echo '</td><td>';
-    echo "<button data-toggle=\"modal\" data-target=\"#editModal\"  class=\"edit_user btn btn-danger-outline btn-sm\" id=\"user_edit\" value=\"$phone\"  >Edit </button></td></tr>";
+echo "<button data-toggle=\"modal\" data-target=\"#askModal\"  
+class=\"btn btn-danger-outline btn-sm\" id=\"user_phone_dt\" value=\"$phone\">Remove</button>";
+echo '</td><td>';
+echo "<button data-toggle=\"modal\" data-target=\"#editModal\"  
+class=\"edit_user btn btn-danger-outline btn-sm\" id=\"user_edit\" value=\"$phone\">Edit </button></td></tr>";
 }
 ?>
+
+<!-- ================== Fill Customer Data for editing ====================== -->
 <script>
     $('.edit_user').click(function(){
-            var user_id = $(this).attr("value");
-        $.post('./controller/requestHandler.php', {
-            callback: 'edit_client',
-            user_edit: user_id
-        }, function(data) {
+
+        var user_id = $(this).attr("value");
+        $.post('./controller/requestHandler.php', {callback: 'edit_client', user_edit: user_id}, function(data) {
+
             var res = $.parseJSON(data);
-          console.log(res.name,res.phone);
+
+            console.log(res);
+
             $("#c_edit_name:text").val(res.name);
             $("#c_edit_phone:text").val(res.phone);
         });
+
     });
 </script>
+<!-- ========////////////////////////////////////////////////================ -->
+
 
 <!-- TODO: 'add edit button for customer info'-->
 
@@ -267,8 +277,9 @@ echo '</td><td>';
             </div> <!-- container -->
         </div> <!-- End wrapper -->
 
-
-<!-- New Customer add Ask Model -->
+<!-- =========================================================================================================== -->
+<!-- ===============//////////////======== New Customer Add Dialogue =========///////////======================== -->
+<!-- =========================================================================================================== -->
 <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -299,55 +310,103 @@ echo '</td><td>';
   </div>
 </div>
 
-        <!-- Customer Edit Ask Model -->
-        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="editModalLabel">Edit Customer details</h4>
+<!-- =========================================================================================================== -->
+<!-- =========================================================================================================== -->
+<!-- =========================================================================================================== -->
+
+
+
+<!-- =========================================================================================================== -->
+<!-- ===============//////////////======== Customer Edit Dialogue =========///////////============================= -->
+<!-- =========================================================================================================== -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="editModalLabel">Edit Customer details</h4>
+            </div>
+            <div class="modal-body">
+                <form action="controller/update_customer.php" method="post">
+                    <div class="form-group row">
+                        <label class="col-sm-4 form-control-label">NAME <span class="text-danger">*</span></label>
+                        <div class="col-sm-7">
+                            <input type="text" autofocus required class="form-control" id="c_edit_name" name="c_edit_name" placeholder=""> </div>
                     </div>
-                    <div class="modal-body">
-                        <form action="controller/update_customer.php" method="post">
-                            <div class="form-group row">
-                                <label class="col-sm-4 form-control-label">Name <span class="text-danger">*</span></label>
-                                <div class="col-sm-7">
-                                    <input type="text" autofocus required class="form-control" id="c_edit_name" name="c_edit_name" placeholder=""> </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-4 form-control-label">Phone<span class="text-danger">*</span></label>
-                                <div class="col-sm-7">
-                                    <input type="text" minlength="11" maxlength="13" required class="form-control" id="c_edit_phone" name="c_edit_phone" placeholder=""> </div>
-                            </div>
-                            <div class="modal-footer">
-                                <input type="hidden" id="c_edit_update" name="c_edit_update" value="1">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button  type="submit" class="btn btn-primary">Update</button>
-                            </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 form-control-label">PHONE<span class="text-danger">*</span></label>
+                        <div class="col-sm-7">
+                            <input type="text" minlength="11" maxlength="13" required class="form-control" id="c_edit_phone" name="c_edit_phone" placeholder=""> </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" id="c_edit_update" name="c_edit_update" value="1">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button  type="submit" class="btn btn-primary">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- =========================================================================================================== -->
+<!-- =========================================================================================================== -->
+<!-- =========================================================================================================== -->
+
+
+
+
+<!-- =========================================================================================================== -->
+<!-- ===============//////////////======== Customer Delete Confirmation Dialogue =========///////////============================= -->
+<!-- =========================================================================================================== -->
+
+<div class="modal fade" id="askModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                    <h2>Delete Confirmation</h2>
+                    <p>This process cannot be Un-Done</p>
+            </br>
+            <div id="#uif" class="well">
+
+            </div>
+                    <div class="modal-footer">
+                        <form method="post" role="form" id="delte_customer" action="controller/delete_customer.php">
+                        <input type="hidden" id="nuke_phone" name="nuke_phone" value="">
+                        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cancel</button>
+                        <input  type="submit" value="Delete" class="btn btn-danger-outline btn-sm" >
                         </form>
                     </div>
-                </div>
             </div>
         </div>
+    </div>
+</div>
 
-        <!-- Customer delete Ask Modeld -->
-        <div class="modal fade" id="askModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-body">
-                            <h2>Delete Confirmation</h2>
-                            <p>This process cannot be Un-Done</p>
-                            <div class="modal-footer">
-                                <form method="post" role="form" id="delte_customer" action="controller/delete_customer.php">
-                                <input type="hidden" id="nuke_phone" name="nuke_phone" value="">
-                                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cancel</button>
-                                <input  type="submit" value="Delete" class="btn btn-danger-outline btn-sm" >
-                                </form>
-                            </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
+
+
+<!-- ================== Get Customer data: so user decides to Delete/DoNothing ====================== -->
+<script>
+    $('#user_phone_dt').click(function(){
+
+        var user_id = $(this).attr("value");
+        $.post('./controller/requestHandler.php', {callback: 'edit_client', user_edit: user_id}, function(data) {
+
+            var res = $.parseJSON(data);
+
+            console.log(res);
+
+            $("#c_edit_name:text").val(res.name);
+            $("#c_edit_phone:text").val(res.phone);
+        });
+
+    });
+</script>
+<!-- ========////////////////////////////////////////////////================ -->
+<!-- =========================================================================================================== -->
+<!-- =========================================================================================================== -->
+<!-- =========================================================================================================== -->
+
+
 
         <script>
             var resizefunc = [];
@@ -391,35 +450,35 @@ echo '</td><td>';
 
         </script>
 
-               <script type="text/javascript">
-                   //Restrict number input to PHONE in customer update form
-                   $(document).ready(function () {
-                       //called when key is pressed in textbox
-                       $("#c_phone").keypress(function (e) {
-                           //if the letter is not digit then display error and don't type anything
-                           if (e.which != 8 && e.which != 0 && (e.which < 47 || e.which > 57)) {
-                               return false;
-                           }
-                       });
-                   });
+        <script type="text/javascript">
+            //Restrict number input to PHONE in customer update form
+            $(document).ready(function () {
+                //called when key is pressed in textbox
+                $("#c_phone").keypress(function (e) {
+                    //if the letter is not digit then display error and don't type anything
+                    if (e.which != 8 && e.which != 0 && (e.which < 47 || e.which > 57)) {
+                        return false;
+                    }
+                });
+            });
 
-                   //Restrict number input to PHONE in customer update form
-                   $(document).ready(function () {
-                       //called when key is pressed in textbox
-                       $("#c_phone").keypress(function (e) {
-                           //if the letter is not digit then display error and don't type anything
-                           if (e.which != 8 && e.which != 0 && (e.which < 47 || e.which > 57)) {
-                               return false;
-                           }
-                       });
-                       //called when key is pressed in textbox
-                       $("#c_edit_phone").keypress(function (e) {
-                           //if the letter is not digit then display error and don't type anything
-                           if (e.which != 8 && e.which != 0 && (e.which < 47 || e.which > 57)) {
-                               return false;
-                           }
-                       });
-                   });
+            //Restrict number input to PHONE in customer update form
+            $(document).ready(function () {
+                //called when key is pressed in textbox
+                $("#c_phone").keypress(function (e) {
+                    //if the letter is not digit then display error and don't type anything
+                    if (e.which != 8 && e.which != 0 && (e.which < 47 || e.which > 57)) {
+                        return false;
+                    }
+                });
+                //called when key is pressed in textbox
+                $("#c_edit_phone").keypress(function (e) {
+                    //if the letter is not digit then display error and don't type anything
+                    if (e.which != 8 && e.which != 0 && (e.which < 47 || e.which > 57)) {
+                        return false;
+                    }
+                });
+            });
         </script>
 
         <script type="text/javascript">
@@ -447,6 +506,4 @@ echo '</td><td>';
 
         <script src="assets/js/myCustom.js"></script>
     </body>
-
-<!-- Mirrored from coderthemes.com/Sajjad Framers_1.4/horizontal/tables-datatable.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 24 Oct 2016 01:48:35 GMT -->
 </html>

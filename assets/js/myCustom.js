@@ -12,6 +12,7 @@ $("#s_framesize").focus(function () {
         }
     });
 });
+
 //Type only Numbers in Frame Size -> Do Sale
 $(document).ready(function () {
     //called when key is pressed in textbox
@@ -56,10 +57,9 @@ $("#s_type").change(function () {
     }
 });
 
-
 //AutoHide System-alert in 4 seconds
 $(document).ready(function () {
     $("#system-alert").fadeTo(40000, 1000).slideUp(1000, function(){
         $("#system-alert").alert('close');
     });
-    });
+});

@@ -239,8 +239,8 @@ if(!$result){
 }
 
 while ($box = mysqli_fetch_assoc($result)){
-//    echo $box['no_of_length']. ' - ';
-//    echo $box['width'];
+    echo $box['no_of_length']. ' - ';
+    echo $box['width'];
 
 echo '<tr>';
 
@@ -268,7 +268,7 @@ echo '</td>';
 
     if($tWidth > 0 && $tWidth < 2) {
 
-        if($stockq <= 15 && $stockq != 0) {
+        if($stockq <= $h_sale && $stockq != 0) {
             echo '<td  style="color: red;font-weight: bolder;background-color: #ffb1b1;">';
             echo $stockq."  &nbsp &nbsp &nbsp &nbsp<button class='btn btn-danger btn-sm' href='#'>LOW STOCK</button>";
             echo '</td>';
@@ -281,7 +281,7 @@ echo '</td>';
 
     } else if($tWidth >= 2 && $tWidth <= 3) {
 
-        if($stockq <= 10 && $stockq != 0) {
+        if($stockq <= $m_sale && $stockq != 0) {
             echo '<td  style="color: red;font-weight: bolder;background-color: #ffb1b1;">';
             echo $stockq."  &nbsp &nbsp &nbsp &nbsp<button class='btn btn-danger btn-sm' href='#'>LOW STOCK</button>";
             echo '</td>';
@@ -294,7 +294,7 @@ echo '</td>';
 
     } else if($tWidth > 3) {
 
-        if($stockq <= 5 && $stockq !== 0) {
+        if($stockq <= $l_sale && $stockq !== 0) {
             echo '<td  style="color: red;font-weight: bolder;background-color: #ffb1b1;">';
             echo $stockq."  &nbsp &nbsp &nbsp &nbsp<button class='btn btn-danger btn-sm' href='#'>LOW STOCK</button>";
             echo '</td>';
