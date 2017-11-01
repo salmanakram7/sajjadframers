@@ -17,7 +17,7 @@ $list_sales_debt = mysqli_query($connection, "SELECT * FROM sale");
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="A fully featured admin theme which can be used to build CRM, CMS, etc.">
-        <meta name="author" content="Coderthemes">
+        <meta name="Sajjad Framers" content="Commercial Web App">
 
         <!-- App Favicon -->
         <link rel="shortcut icon" href="assets/images/favicon.ico">

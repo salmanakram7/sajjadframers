@@ -14,7 +14,7 @@ header('location:index.php');
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="A fully featured admin theme which can be used to build CRM, CMS, etc.">
-<meta name="author" content="Coderthemes">
+<meta name="Sajjad Framers" content="Commercial Web App">
 
 <!-- App Favicon -->
 <link rel="shortcut icon" href="assets/images/favicon.ico">
@@ -210,15 +210,15 @@ header('location:index.php');
                             <table id="datatable" class="table table-striped table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>MODEL NAME</th>
-                                        <th>RATE PER FOOT</th>
-                                        <th>SINGLE LENGTH</th>
-                                        <th>CURRENT STOCK</th>
+                                        <th>NAME</th>
+                                        <th>RATE</th>
+                                        <th>SINGLE</th>
+                                        <th>IN STOCK</th>
                                         <th>LENGTH SIZE</th>
-                                        <th>WIDTH (INCH)</th>
-                                        <th>WASTAGE (INCH)</th>
-                                        <th>ENTRY DATETIME</th>
-                                        <th>STOCK IMPORT</th>
+                                        <th>WIDTH</th>
+                                        <th>WASTAGE</th>
+                                        <th>CREATED </th>
+                                        <th>ADD</th>
                                     </tr>
                                 </thead>
 
@@ -335,18 +335,12 @@ echo ' </td>';
 //Import more stock here
 echo ' <td>';
 $productId = $box['pid'];
-echo "<button type=\"button\" class=\"update_button btn btn-custom  waves-effect waves-light\" 
-data-toggle=\"modal\" data-target=\"#updateSingleStockValue\" aria-expanded=\"false\" value=\"$productId\">
-+ UPDATE
-<span class=\"m-l-5\"><i class=\"ion-plus-circled\"></i></span></button>";
-
-//Attaching InStock Value to reduce another Request
-//InStock Value Attached
-$modelInStock = $box['instockp'];
-echo "<input type='hidden' class='text-hide' id='fetchInStockValue' value='$modelInStock'>";
+echo "<button type=\"button\" class=\"update_button btn btn-custom  waves-effect waves-light\" data-toggle=\"modal\" data-target=\"#updateSingleStockValue\" aria-expanded=\"false\" value=\"$productId\"><span class=\"m-l-5\"><i class=\"fa fa-plus-circle\"></i></span></button>";
+//echo "<button type=\"button\" class=\"update_button btn btn-custom  waves-effect waves-light\" data-toggle=\"modal\" data-target=\"#updateSingleStockValue\" aria-expanded=\"false\" value=\"$productId\"><span class=\"m-l-5\"><i class=\"fa fa-plus-circle\"></i></span></button>";
 echo ' </td>';
 
 echo ' </tr>';
+// Single Row is Ended
 }
 ?>
 
@@ -396,27 +390,27 @@ echo ' </tr>';
             <div class="form-group row">
                 <label class="col-sm-4 form-control-label">LENGTH QUANTITY <span class="text-danger">*</span></label>
                 <div class="col-sm-7">
-                    <input type="text" required class="form-control" id="c_name" name="s_no_length" placeholder=""> </div>
+                    <input type="text" required class="form-control" id="s_no_length" name="s_no_length" placeholder=""> </div>
             </div>
              <div class="form-group row">
                 <label class="col-sm-4 form-control-label">LENGTH SIZE (inch) <span class="text-danger">*</span></label>
                 <div class="col-sm-7">
-                    <input type="text" required class="form-control" id="c_name" name="s_size" placeholder="118"> </div>
+                    <input type="text" required class="form-control" id="s_size" name="s_size" placeholder="118"> </div>
             </div>
              <div class="form-group row">
                 <label class="col-sm-4 form-control-label">RATE IN (Feet) <span class="text-danger">*</span></label>
                 <div class="col-sm-7">
-                    <input type="text" required class="form-control" id="c_name" name="s_rate_feet" placeholder=""> </div>
+                    <input type="text" required class="form-control" id="s_rate_feet" name="s_rate_feet" placeholder=""> </div>
             </div>
               <div class="form-group row">
                 <label class="col-sm-4 form-control-label">RATE OF (length) <span class="text-danger">*</span></label>
                 <div class="col-sm-7">
-                    <input type="text" required class="form-control" id="c_name" name="s_rate_length" placeholder=""> </div>
+                    <input type="text" required class="form-control" id="s_rate_length" name="s_rate_length" placeholder=""> </div>
             </div>
               <div class="form-group row">
                 <label class="col-sm-4 form-control-label">WIDTH (Inch)<span class="text-danger">*</span></label>
                 <div class="col-sm-7">
-                    <input type="text" required class="form-control" id="c_name" name="s_width" placeholder=""> </div>
+                    <input type="text" required class="form-control" id="s_width" name="s_width" placeholder=""> </div>
             </div>
             <!-- Action for filtering requests on Update Stock page-->
             <input type="hidden" class="text-hide" name="form_request_action" value="addNewModel">
@@ -431,11 +425,6 @@ echo ' </tr>';
   </div>
 </div>
 
-
-
-
-
-
  <!-- Update Stock Modal -->
  <div class="modal fade" id="updateSingleStockValue" tabindex="-1" role="dialog" aria-labelledby="addNewStockLabel">
      <div class="modal-dialog" role="document">
@@ -445,18 +434,20 @@ echo ' </tr>';
                  <h4 class="modal-title" id="addNewStockLabel">INVENTORY UPDATE</h4>
              </div>
              <div style="padding: 50px 10px 25px 55px;" class="modal-body">
-                <!--TODO: input estrict to only digits-->
+                <!--TODO: input restrict to only digits-->
                  <form action="controller/update_stock.php" method="post">
 
                      <div class="form-group row">
                          <label class="col-sm-4 form-control-label">QUANTITY (lengths) <span class="text-danger">*</span></label>
                          <div class="col-sm-4">
-                             <input type="text" required class="form-control" id="c_name" maxlength="4" name="model_quantity" placeholder=""> </div>
+                             <input type="text" required class="form-control" id="model_quantity" maxlength="4" name="model_quantity" placeholder=""> </div>
                      </div>
                      <!--  Model Id Attached -->
-                     <input type="hidden" class="text-hide" id="attachedModelId" name="model_id" value="">                    <!--  Model Id Attached -->
-                    <!--  Model instock Attached -->
-                     <input type="hidden" class="text-hide" id="attachedInStockValue" name="model_inStock" value="">                    <!--  Model Id Attached -->
+                     <input type="hidden" class="text-hide" id="attachedModelId" name="model_id" value="">
+                     <!--  Model instock Attached -->
+                     <input type="hidden" class="text-hide" id="attachedInStockValue" name="model_inStock" value="">
+                     <!--  Model size Attached -->
+                     <input type="hidden" class="text-hide" id="attachedInStockValue" name="model_inStock" value="">
 
                      <!-- Action for filtering requests on Update Stock page-->
                      <input type="hidden" class="text-hide" name="form_request_action" value="updateSingleModel">
@@ -506,17 +497,11 @@ echo ' </tr>';
 <script type="text/javascript">
     console.log('Loaded');
     $('.update_button').on('click', function (){
-
+        // Model Id being connected to request
         var modelId = this.value;
         console.log('Model-Id');
         console.log(modelId);
         $('#attachedModelId').val(modelId);
-
-
-        var instockValue =  $('#fetchInStockValue').val();
-        console.log('InStock-Value');
-        console.log(instockValue);
-        $('#attachedInStockValue').val(instockValue);
     });
 
 </script>
